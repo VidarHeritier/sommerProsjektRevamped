@@ -13,7 +13,7 @@ const celestialBodies = [
 ];
 
 const initialWeight = document.getElementById("input-field");
-const submitBtn = document.getElementById("submit-btn");
+
 const container = document.querySelector(".container");
 container.classList.add("circle");
 
@@ -69,8 +69,11 @@ function weightConvert() {
 
   for (let object of celestialBodies) {
     const planet = document.querySelector(`#w-${object.body}`);
-    planet.textContent = +(weight * object.mass).toFixed(2);
+    planet.textContent =
+      isNaN(weight) || weight === 0 ? "0" : +(weight * object.mass).toFixed(2);
   }
+  document.querySelector(".item-rocket").style.animation =
+    "rocket-animation 3s cubic-bezier(0, 0, 1, 1) infinite";
 
   document.querySelectorAll(".celestial-body").forEach((h2) => {
     h2.style.visibility = "visible";
@@ -81,19 +84,9 @@ function weightConvert() {
     h2.style.visibility = "visible";
     h2.style.animation = "fadeIn 2s cubic-bezier(0, 0, 1, 1)";
   });
-
-  initialWeight.blur();
 }
 
-submitBtn.addEventListener("click", weightConvert);
-
-initialWeight.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    weightConvert();
-    autoScroll();
-  }
-});
+initialWeight.addEventListener("input", weightConvert);
 
 function autoScroll() {
   if (window.innerWidth < 631) {
@@ -128,8 +121,6 @@ function keyfunction() {
   document.querySelector("h1").style.animation = "scaleZero 1s forwards";
   document.querySelector(".h3scale").style.animation = "scaleZero 1s forwards";
 
-  document.querySelector(".item-rocket").style.animation =
-    "rocket-animation 3s cubic-bezier(0, 0, 1, 1) infinite";
   document.querySelector(".sun-img").style.animation =
     "sun-animation 5s infinite, fadeIn 5s, spin 45s cubic-bezier(0, 0, 1, 1) infinite";
 
@@ -138,12 +129,6 @@ function keyfunction() {
 }
 
 document.addEventListener("keypress", keyfunction, true);
-
-initialWeight.oninput = function () {
-  if (this.value.length > this.maxLength) {
-    this.value = this.value.slice(0, this.maxLength);
-  }
-};
 
 addRocketImg.addEventListener("click", () => {
   addRocketImg.remove();
