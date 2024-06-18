@@ -19,6 +19,10 @@ container.classList.add("circle");
 
 const inputField = document.querySelector("#input-field");
 
+window.addEventListener("load", () => {
+  inputField.focus();
+});
+
 const addSpacemanDiv = document.createElement("div");
 const addSpacemanImg = document.createElement("img");
 addSpacemanImg.src = "./Images/SpaceMan.webp";
@@ -70,7 +74,7 @@ function weightConvert() {
   for (let object of celestialBodies) {
     const planet = document.querySelector(`#w-${object.body}`);
     planet.textContent =
-      isNaN(weight) || weight === 0 ? "0" : +(weight * object.mass).toFixed(2);
+      isNaN(weight) || weight === 0 ? "‎ " : +(weight * object.mass).toFixed(2);
   }
   document.querySelector(".item-rocket").style.animation =
     "rocket-animation 3s cubic-bezier(0, 0, 1, 1) infinite";
@@ -132,4 +136,11 @@ document.addEventListener("keypress", keyfunction, true);
 
 addRocketImg.addEventListener("click", () => {
   addRocketImg.remove();
+});
+
+inputField.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === "Escape") {
+    inputField.value = "";
+    weightConvert();
+  }
 });
